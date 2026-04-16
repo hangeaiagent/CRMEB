@@ -20,6 +20,7 @@
 /template/uni-app/unpackage/
 /template/uni-app/.hbuilderx/
 /crmeb/.idea/
+/crmeb/vendor/
 /docker-compose/MacArm/mysql/data/
 /docker-compose/MacArm/mysql/log/
 /docker-compose/linux/mysql/data/
