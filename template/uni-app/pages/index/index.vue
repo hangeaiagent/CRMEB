@@ -15,7 +15,9 @@
 			<!-- 顶部搜索框 -->
 			<headerSerch v-if="isHeaderSerch" :dataConfig="headerSerchCombData" :belongIndex="belongIndex" @storeTap="storeTap"></headerSerch>
 			<tabNav v-if="showCateNav" :dataConfig="cateNavData" @bindHeight="bindHeighta" @bindSortId="bindSortId" :isFixed="isFixed && !cateNavData.stickyConfig.tabVal"></tabNav>
-			<!-- 珍珠 demo: 场景化购买入口（静态注入，不走 DIY） -->
+			<!-- 珍珠 demo: 品牌 Hero + 分类导航 + 场景入口（静态注入，不走 DIY） -->
+			<pearl-hero />
+			<pearl-category-nav />
 			<scene-entry />
 			<view class="index">
 				<!-- 自定义样式 -->
@@ -170,6 +172,8 @@ import signIn from './components/signIn';
 import hotspot from './components/hotspot';
 import follow from './components/follow';
 import sceneEntry from './components/sceneEntry.vue';
+import pearlHero from './components/pearlHero.vue';
+import pearlCategoryNav from './components/pearlCategoryNav.vue';
 import waterfallsFlow from '@/components/WaterfallsFlow/WaterfallsFlow.vue';
 import emptyPage from '@/components/emptyPage.vue';
 // #ifdef MP
@@ -251,6 +255,8 @@ export default {
 		hotspot,
 		follow,
 		sceneEntry,
+		pearlHero,
+		pearlCategoryNav,
 		waterfallsFlow,
 		emptyPage,
 		// #ifdef APP

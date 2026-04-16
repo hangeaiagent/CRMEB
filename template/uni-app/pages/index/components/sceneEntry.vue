@@ -2,6 +2,7 @@
 	<view class="scene-entry">
 		<view class="scene-title">
 			<text class="zh">场景购珠</text>
+			<text class="sep">·</text>
 			<text class="en">Pick pearls for the moment</text>
 		</view>
 		<view class="scene-grid">
@@ -22,10 +23,10 @@ export default {
 	data() {
 		return {
 			scenes: [
-				{ tag: 'daily',    zh: '日常通勤', en: 'Daily',   icon: 'icon-shijian', bg: 'linear-gradient(135deg, #F8F5EE, #E8DCC4)' },
-				{ tag: 'gift_mom', zh: '送给妈妈', en: 'For Mom',  icon: 'icon-aixin',   bg: 'linear-gradient(135deg, #FCEDE6, #F5C8B3)' },
-				{ tag: 'date',     zh: '约会心动', en: 'Date',     icon: 'icon-xingzuo', bg: 'linear-gradient(135deg, #F3E8F8, #D9BCE6)' },
-				{ tag: 'wedding',  zh: '婚礼场合', en: 'Wedding',  icon: 'icon-huangguan', bg: 'linear-gradient(135deg, #F0E5D4, #D4B583)' },
+				{ tag: 'daily',    zh: '日常通勤', en: 'Daily',   icon: 'icon-shijian',   bg: 'linear-gradient(135deg, #FAF7F2, #F2EDE4)' },
+				{ tag: 'gift_mom', zh: '送给妈妈', en: 'For Mom',  icon: 'icon-aixin',     bg: 'linear-gradient(135deg, #F5EDD8, #E8D4C0)' },
+				{ tag: 'date',     zh: '约会心动', en: 'Date',     icon: 'icon-xingzuo',   bg: 'linear-gradient(135deg, #F8F0E8, #C9A08A)' },
+				{ tag: 'wedding',  zh: '婚礼场合', en: 'Wedding',  icon: 'icon-huangguan', bg: 'linear-gradient(135deg, #F5EDD8, #D4AF72)' },
 			],
 		};
 	},
@@ -43,27 +44,33 @@ export default {
 .scene-entry {
 	background: #fff;
 	margin: 20rpx 20rpx 0;
-	padding: 30rpx 24rpx;
+	padding: 32rpx 28rpx;
 	border-radius: 24rpx;
+	border: 1rpx solid #E0D8CF;
 }
 
 .scene-title {
 	display: flex;
 	align-items: baseline;
-	margin-bottom: 24rpx;
+	margin-bottom: 28rpx;
 	padding-left: 8rpx;
+	font-family: 'STSong', 'Songti SC', 'Noto Serif SC', serif;
 
 	.zh {
 		font-size: 32rpx;
-		font-weight: 600;
-		color: #2c2418;
-		letter-spacing: 2rpx;
+		color: #1C1917;
+		letter-spacing: 3rpx;
+	}
+
+	.sep {
+		color: #B8924A;
+		margin: 0 10rpx;
 	}
 
 	.en {
-		margin-left: 16rpx;
 		font-size: 22rpx;
-		color: #b5a580;
+		color: #B8924A;
+		letter-spacing: 2rpx;
 		font-style: italic;
 	}
 }
@@ -80,31 +87,33 @@ export default {
 	align-items: center;
 
 	.icon-wrap {
-		width: 96rpx;
-		height: 96rpx;
+		width: 104rpx;
+		height: 104rpx;
 		border-radius: 28rpx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		box-shadow: 0 6rpx 16rpx rgba(201, 169, 110, 0.15);
+		border: 1rpx solid rgba(184, 146, 74, 0.25);
+		box-shadow: 0 6rpx 18rpx rgba(184, 146, 74, 0.1);
 
 		.iconfont {
-			font-size: 44rpx;
-			color: #8a6d3b;
+			font-size: 46rpx;
+			color: #8A6D3B;
 		}
 	}
 
 	.zh-label {
 		margin-top: 14rpx;
 		font-size: 24rpx;
-		color: #2c2418;
+		color: #1C1917;
+		letter-spacing: 1rpx;
 	}
 
 	.en-label {
 		margin-top: 4rpx;
 		font-size: 18rpx;
-		color: #b5a580;
-		letter-spacing: 1rpx;
+		color: #B8924A;
+		letter-spacing: 2rpx;
 	}
 }
 </style>

@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南珠臻品 · uni-app 首页/列表页 预览</title>
+<style>
+:root {
+  --cream: #FAF7F2;
+  --cream-dark: #F2EDE4;
+  --gold: #B8924A;
+  --gold-light: #D4AF72;
+  --gold-pale: #F5EDD8;
+  --ink: #1C1917;
+  --ink-soft: #3D3530;
+  --muted: #7A6E68;
+  --jade: #4A6741;
+  --jade-light: #E8F0E6;
+  --border: #E0D8CF;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+  background: #E5E0D8;
+  color: var(--ink);
+  padding: 24px 0;
+}
+.serif { font-family: 'STSong', 'Songti SC', 'Noto Serif SC', serif; }
+.wrap {
+  max-width: 1500px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 375px);
+  gap: 40px;
+  justify-content: center;
+}
+.phone {
+  width: 375px;
+  min-height: 812px;
+  background: #FAF7F2;
+  border-radius: 40px;
+  box-shadow: 0 12px 40px rgba(28,25,23,0.25);
+  overflow: hidden;
+  position: relative;
+  border: 10px solid #1a1a1a;
+}
+.phone-label {
+  text-align: center;
+  font-size: 13px;
+  color: #5a5a5a;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+.phone-col { display: flex; flex-direction: column; align-items: center; }
+
+/* ─── 顶部状态栏 ─── */
+.status-bar {
+  height: 28px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  font-size: 12px;
+  color: #1C1917;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.status-bar .right { display: flex; gap: 6px; align-items: center; }
+
+/* ─── 首页 ────────────────────────── */
+.home-search {
+  background: #fff;
+  padding: 8px 14px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.home-search .brand {
+  font-family: 'STSong', 'Songti SC', serif;
+  font-size: 17px;
+  letter-spacing: 3px;
+  color: var(--ink);
+  padding-right: 8px;
+  border-right: 1px solid var(--border);
+}
+.home-search .brand span { color: var(--gold); }
+.home-search .input {
+  flex: 1;
+  background: var(--cream);
+  border-radius: 16px;
+  padding: 7px 14px;
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.home-search .input .ico { color: var(--gold); font-size: 13px; }
+
+/* ─── Hero ─── */
+.hero {
+  margin: 10px 10px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(135deg, #1C1917 0%, #3D2E25 55%, #1C1917 100%);
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 75% 25%, rgba(212,175,114,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 10% 90%, rgba(184,146,74,0.12) 0%, transparent 55%);
+  pointer-events: none;
+}
+.hero-body { position: relative; padding: 24px 18px 16px; }
+.hero .tag {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--gold-light);
+  border: 1px solid var(--gold);
+  padding: 3px 10px;
+  margin-bottom: 14px;
+}
+.hero .title {
+  font-family: 'STSong', 'Songti SC', serif;
+  line-height: 1.3;
+}
+.hero .title .zh {
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  display: block;
+}
+.hero .title .accent { color: var(--gold-light); font-weight: 600; margin-top: 2px; }
+.hero .sub {
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.8;
+  max-width: 280px;
+}
+.hero .btn-row {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+}
+.hero .btn-primary, .hero .btn-outline {
+  padding: 7px 18px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  border-radius: 1px;
+  display: inline-block;
+}
+.hero .btn-primary { background: var(--gold); color: #fff; }
+.hero .btn-outline { border: 1px solid rgba(255,255,255,0.4); color: #fff; }
+.stats {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  padding: 1px;
+  background: rgba(184,146,74,0.15);
+  border-top: 1px solid rgba(184,146,74,0.3);
+}
+.stat {
+  background: rgba(28,25,23,0.92);
+  padding: 12px 4px;
+  text-align: center;
+}
+.stat .num {
+  font-family: 'STSong', 'Songti SC', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--gold-light);
+  letter-spacing: 1px;
+  display: block;
+}
+.stat .lbl {
+  margin-top: 2px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 1px;
+  display: block;
+}
+
+/* ─── 分类 ─── */
+.cat-nav {
+  margin: 10px 10px 0;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  padding: 14px 0 4px;
+}
+.cat-nav .head {
+  padding: 0 16px 10px;
+  display: flex; align-items: baseline;
+  font-family: 'STSong', 'Songti SC', serif;
+}
+.cat-nav .head .zh { font-size: 16px; letter-spacing: 2px; color: var(--ink); }
+.cat-nav .head .sep { color: var(--gold); margin: 0 6px; }
+.cat-nav .head .en { font-size: 12px; color: var(--gold); letter-spacing: 1px; }
+.cat-scroll {
+  overflow-x: auto;
+  border-top: 1px solid var(--cream-dark);
+  white-space: nowrap;
+}
+.cat-scroll::-webkit-scrollbar { display: none; }
+.cat-tabs { display: inline-flex; padding: 0 8px; }
+.cat-tab {
+  padding: 11px 14px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.cat-tab.active { color: var(--gold); font-weight: 500; border-bottom-color: var(--gold); }
+
+/* ─── 场景入口 ─── */
+.scene {
+  margin: 10px 10px 0;
+  background: #fff;
+  padding: 16px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.scene .head {
+  display: flex; align-items: baseline;
+  margin-bottom: 14px;
+  font-family: 'STSong', 'Songti SC', serif;
+}
+.scene .head .zh { font-size: 16px; letter-spacing: 2px; color: var(--ink); }
+.scene .head .sep { color: var(--gold); margin: 0 6px; }
+.scene .head .en { font-size: 11px; color: var(--gold); letter-spacing: 1px; font-style: italic; }
+.scene .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.scene-card { display: flex; flex-direction: column; align-items: center; }
+.scene-card .icon-wrap {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(184,146,74,0.25);
+  box-shadow: 0 3px 9px rgba(184,146,74,0.1);
+  font-size: 22px;
+  color: #8A6D3B;
+}
+.scene-card .zh-l { margin-top: 7px; font-size: 12px; color: var(--ink); }
+.scene-card .en-l { margin-top: 2px; font-size: 9px; color: var(--gold); letter-spacing: 1px; }
+
+.scene-card .icon-wrap.bg1 { background: linear-gradient(135deg, #FAF7F2, #F2EDE4); }
+.scene-card .icon-wrap.bg2 { background: linear-gradient(135deg, #F5EDD8, #E8D4C0); }
+.scene-card .icon-wrap.bg3 { background: linear-gradient(135deg, #F8F0E8, #C9A08A); color: #7D4C3F; }
+.scene-card .icon-wrap.bg4 { background: linear-gradient(135deg, #F5EDD8, #D4AF72); color: #5d4020; }
+
+/* ─── 商品推荐区（首页底部瀑布流样式简化） ─── */
+.recommend { padding: 14px 10px 40px; }
+.recommend .head {
+  padding: 0 6px 12px;
+  font-family: 'STSong', 'Songti SC', serif;
+  font-size: 14px;
+  color: var(--ink);
+  letter-spacing: 2px;
+}
+.recommend .head .gold { color: var(--gold); }
+.recommend .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.pcard {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.pcard .img {
+  aspect-ratio: 1;
+  background: var(--cream-dark);
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.pcard .img .pearl-svg { width: 52px; height: 52px; }
+.pcard .badge {
+  position: absolute; top: 6px; left: 6px;
+  font-size: 9px; letter-spacing: 1px;
+  padding: 2px 6px; color: #fff;
+}
+.b-hot { background: var(--gold); }
+.b-new { background: var(--jade); }
+.b-gift { background: var(--ink); }
+.pcard .body { padding: 10px 10px 12px; font-family: 'STSong', 'Songti SC', serif; }
+.pcard .cat { font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 2px; font-family: -apple-system, sans-serif; }
+.pcard .name { font-size: 13px; color: var(--ink); line-height: 1.4; margin-bottom: 6px; }
+.pcard .params { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 6px; }
+.pcard .param {
+  font-size: 9px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: var(--cream);
+  padding: 1px 6px;
+  letter-spacing: 1px;
+  font-family: -apple-system, sans-serif;
+}
+.pcard .param.gold {
+  background: var(--gold-pale);
+  border-color: var(--gold-pale);
+  color: var(--ink-soft);
+}
+.pcard .price-row { display: flex; align-items: center; justify-content: space-between; }
+.pcard .price { font-size: 16px; color: var(--gold); font-weight: 600; font-family: 'STSong', serif; }
+.pcard .orig { font-size: 10px; color: var(--muted); text-decoration: line-through; margin-left: 4px; font-family: -apple-system, sans-serif; }
+.pcard .add {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--cream-dark);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-soft);
+  font-size: 14px; line-height: 1;
+  font-family: -apple-system, sans-serif;
+}
+
+/* ─── 列表页 (右侧手机) ─── */
+.list-search {
+  background: #fff;
+  padding: 8px 12px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.list-search .back { font-size: 16px; color: var(--ink); padding: 4px; }
+.list-search .box {
+  flex: 1;
+  background: var(--cream);
+  border-radius: 16px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.list-search .mode { font-size: 16px; color: var(--ink); padding: 4px; }
+.list-nav {
+  display: flex;
+  background: #fff;
+  border-bottom: 1px solid var(--cream-dark);
+}
+.list-nav .item {
+  flex: 1;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.list-nav .item.active { color: var(--gold); font-weight: 500; }
+.list-nav .item .arrow { font-size: 9px; margin-left: 3px; color: var(--muted); }
+.pearl-filter {
+  white-space: nowrap;
+  background: var(--cream);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.pearl-filter::-webkit-scrollbar { display: none; }
+.pf-group {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 16px;
+}
+.pf-group .lbl {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-right: 8px;
+}
+.chip {
+  display: inline-block;
+  padding: 4px 12px;
+  margin-right: 5px;
+  font-size: 11px;
+  color: var(--ink-soft);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  letter-spacing: 1px;
+}
+.chip.on { background: var(--gold); color: #fff; border-color: var(--gold); }
+.chip.scene { color: var(--jade); background: var(--jade-light); border-color: #D4E1D2; }
+.chip.scene.on { background: var(--jade); color: #fff; border-color: var(--jade); }
+
+.list-products {
+  padding: 12px 10px 40px;
+  background: transparent;
+}
+.list-products .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+/* Pearl SVG 装饰 */
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ═══ 手机1: 首页 ═══ -->
+  <div class="phone-col">
+    <div class="phone-label">首页 · pages/index/index.vue</div>
+    <div class="phone">
+      <!-- 状态栏 -->
+      <div class="status-bar">
+        <span>9:41</span>
+        <span class="right"><span>•••• 5G</span><span>100%</span></span>
+      </div>
+
+      <!-- 搜索栏 -->
+      <div class="home-search">
+        <div class="brand">南<span>珍</span>宫</div>
+        <div class="input">
+          <span class="ico">⌕</span>
+          <span>搜索珍珠首饰、珠源、场景</span>
+        </div>
+      </div>
+
+      <!-- HERO -->
+      <div class="hero">
+        <div class="hero-body">
+          <div class="tag">北部湾南珠 · 匠心臻品</div>
+          <div class="title">
+            <span class="zh">天地孕育</span>
+            <span class="zh accent">一粒珍珠</span>
+          </div>
+          <div class="sub">源自合浦海域的南珠，历经三年养殖，每一颗都承载海洋的温度与时光的耐心。</div>
+          <div class="btn-row">
+            <span class="btn-primary">立即选购</span>
+            <span class="btn-outline">品牌故事</span>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="num">67</span><span class="lbl">年养殖历史</span></div>
+          <div class="stat"><span class="num">ISO</span><span class="lbl">国际质量认证</span></div>
+          <div class="stat"><span class="num">100%</span><span class="lbl">正品附证书</span></div>
+          <div class="stat"><span class="num">3000+</span><span class="lbl">品类在售</span></div>
+          <div class="stat"><span class="num">终身</span><span class="lbl">免费换线</span></div>
+          <div class="stat"><span class="num">7天</span><span class="lbl">无忧退换</span></div>
+        </div>
+      </div>
+
+      <!-- 分类 Tab -->
+      <div class="cat-nav">
+        <div class="head">
+          <span class="zh">精选珍珠</span>
+          <span class="sep">·</span>
+          <span class="en">匠心臻品</span>
+        </div>
+        <div class="cat-scroll">
+          <div class="cat-tabs">
+            <div class="cat-tab active">全部商品</div>
+            <div class="cat-tab">珍珠项链</div>
+            <div class="cat-tab">耳饰耳钉</div>
+            <div class="cat-tab">手链手镯</div>
+            <div class="cat-tab">吊坠胸针</div>
+            <div class="cat-tab">礼品套装</div>
+            <div class="cat-tab">珍珠护肤</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 场景入口 -->
+      <div class="scene">
+        <div class="head">
+          <span class="zh">场景购珠</span>
+          <span class="sep">·</span>
+          <span class="en">Pick pearls for the moment</span>
+        </div>
+        <div class="grid">
+          <div class="scene-card">
+            <div class="icon-wrap bg1">⏱</div>
+            <div class="zh-l">日常通勤</div>
+            <div class="en-l">Daily</div>
+          </div>
+          <div class="scene-card">
+            <div class="icon-wrap bg2">♥</div>
+            <div class="zh-l">送给妈妈</div>
+            <div class="en-l">For Mom</div>
+          </div>
+          <div class="scene-card">
+            <div class="icon-wrap bg3">✦</div>
+            <div class="zh-l">约会心动</div>
+            <div class="en-l">Date</div>
+          </div>
+          <div class="scene-card">
+            <div class="icon-wrap bg4">♛</div>
+            <div class="zh-l">婚礼场合</div>
+            <div class="en-l">Wedding</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 首页推荐 -->
+      <div class="recommend">
+        <div class="head">为你推荐 <span class="gold">· Featured</span></div>
+        <div class="grid">
+          <div class="pcard">
+            <div class="img" style="background:#F0E8D820">
+              <svg class="pearl-svg" viewBox="0 0 80 80"><defs><radialGradient id="p1" cx="38%" cy="35%" r="65%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="40%" stop-color="#F0E8D8"/><stop offset="100%" stop-color="#B89460"/></radialGradient></defs><circle cx="40" cy="40" r="32" fill="url(#p1)" stroke="#C9A96E" stroke-width="0.5"/><ellipse cx="30" cy="28" rx="8" ry="4" fill="white" opacity="0.4" transform="rotate(-25 30 28)"/></svg>
+              <div class="badge b-hot">热销</div>
+            </div>
+            <div class="body">
+              <div class="cat">NECKLACE</div>
+              <div class="name">贵气天成海水珍珠项链</div>
+              <div class="params">
+                <span class="param gold">合浦南珠</span>
+                <span class="param">7-8mm</span>
+                <span class="param">正圆</span>
+              </div>
+              <div class="price-row">
+                <div><span class="price">¥899</span><span class="orig">¥1280</span></div>
+                <div class="add">+</div>
+              </div>
+            </div>
+          </div>
+          <div class="pcard">
+            <div class="img" style="background:#2C283020">
+              <svg class="pearl-svg" viewBox="0 0 80 80"><defs><radialGradient id="p2" cx="38%" cy="35%" r="65%"><stop offset="0%" stop-color="#5C5670"/><stop offset="40%" stop-color="#2C2830"/><stop offset="100%" stop-color="#000"/></radialGradient></defs><circle cx="40" cy="40" r="32" fill="url(#p2)" stroke="#9B7FB0" stroke-width="0.5"/><ellipse cx="30" cy="28" rx="8" ry="4" fill="white" opacity="0.35" transform="rotate(-25 30 28)"/></svg>
+              <div class="badge b-new">新品</div>
+            </div>
+            <div class="body">
+              <div class="cat">PENDANT</div>
+              <div class="name">尚简大溪地黑珍珠吊坠</div>
+              <div class="params">
+                <span class="param gold">大溪地</span>
+                <span class="param">8.5-9mm</span>
+                <span class="param">极强光</span>
+              </div>
+              <div class="price-row">
+                <div><span class="price">¥2680</span><span class="orig">¥3600</span></div>
+                <div class="add">+</div>
+              </div>
+            </div>
+          </div>
+          <div class="pcard">
+            <div class="img" style="background:#F5E8C020">
+              <svg class="pearl-svg" viewBox="0 0 80 80"><defs><radialGradient id="p3" cx="38%" cy="35%" r="65%"><stop offset="0%" stop-color="#FFF5D0"/><stop offset="40%" stop-color="#F5E8C0"/><stop offset="100%" stop-color="#B8842A"/></radialGradient></defs><circle cx="40" cy="40" r="32" fill="url(#p3)" stroke="#C8972A" stroke-width="0.5"/><ellipse cx="30" cy="28" rx="8" ry="4" fill="white" opacity="0.4" transform="rotate(-25 30 28)"/></svg>
+              <div class="badge b-hot">热销</div>
+            </div>
+            <div class="body">
+              <div class="cat">NECKLACE</div>
+              <div class="name">路路通南洋金珠项链</div>
+              <div class="params">
+                <span class="param gold">南洋金珠</span>
+                <span class="param">10-11mm</span>
+                <span class="param">18K金扣</span>
+              </div>
+              <div class="price-row">
+                <div><span class="price">¥5800</span><span class="orig">¥7800</span></div>
+                <div class="add">+</div>
+              </div>
+            </div>
+          </div>
+          <div class="pcard">
+            <div class="img" style="background:#F8F2F020">
+              <svg class="pearl-svg" viewBox="0 0 80 80"><defs><radialGradient id="p4" cx="38%" cy="35%" r="65%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="40%" stop-color="#F8F2F0"/><stop offset="100%" stop-color="#C4907A"/></radialGradient></defs><circle cx="40" cy="40" r="32" fill="url(#p4)" stroke="#D4907A" stroke-width="0.5"/><ellipse cx="30" cy="28" rx="8" ry="4" fill="white" opacity="0.4" transform="rotate(-25 30 28)"/></svg>
+              <div class="badge b-gift">礼品</div>
+            </div>
+            <div class="body">
+              <div class="cat">SET</div>
+              <div class="name">母亲节三件套礼盒</div>
+              <div class="params">
+                <span class="param gold">淡水珍珠</span>
+                <span class="param">8-9mm</span>
+                <span class="param">925银</span>
+              </div>
+              <div class="price-row">
+                <div><span class="price">¥899</span><span class="orig">¥1380</span></div>
+                <div class="add">+</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ 手机2: 商品列表页 ═══ -->
+  <div class="phone-col">
+    <div class="phone-label">商品列表 · pages/goods/goods_list/index.vue</div>
+    <div class="phone">
+      <!-- 状态栏 -->
+      <div class="status-bar">
+        <span>9:41</span>
+        <span class="right"><span>•••• 5G</span><span>100%</span></span>
+      </div>
+
+      <!-- 搜索 -->
+      <div class="list-search">
+        <div class="back">‹</div>
+        <div class="box">⌕ 搜索商品名称</div>
+        <div class="mode">☰</div>
+      </div>
+
+      <!-- 排序 Nav -->
+      <div class="list-nav">
+        <div class="item active">珍珠项链</div>
+        <div class="item">价格 <span class="arrow">▼</span></div>
+        <div class="item">销量 <span class="arrow">▼</span></div>
+        <div class="item">新品</div>
+      </div>
+
+      <!-- 珍珠品质筛选 -->
+      <div class="pearl-filter">
+        <div class="pf-group">
+          <span class="lbl">珠源</span>
+          <span class="chip on">Akoya</span>
+          <span class="chip">大溪地</span>
+          <span class="chip">南洋</span>
+          <span class="chip">爱迪生</span>
+          <span class="chip">淡水</span>
+        </div>
+        <div class="pf-group">
+          <span class="lbl">珠形</span>
+          <span class="chip on">正圆</span>
+          <span class="chip">近圆</span>
+          <span class="chip">巴洛克</span>
+          <span class="chip">椭圆</span>
+        </div>
+        <div class="pf-group">
+          <span class="lbl">颜色</span>
+          <span class="chip">白</span>
+          <span class="chip">粉</span>
+          <span class="chip">金</span>
+          <span class="chip">紫</span>
+          <span class="chip">黑</span>
+        </div>
+        <div class="pf-group">
+          <span class="lbl">场景</span>
+          <span class="chip scene">送妈妈</span>
+          <span class="chip scene on">婚嫁</span>
+          <span class="chip scene">日常通勤</span>
+          <span class="chip scene">约会礼物</span>
+          <span class="chip scene">职场</span>
+        </div>
+      </div>
+
+      <!-- 商品 -->
+      <div class="list-products">
+        <div class="grid">
+          <div class="pcard">
+            <div class="img" style="background:#F8F0E020">
+              <svg class="pearl-svg" viewBox="0 0 80 80"><defs><radialGradient id="l1" cx="38%" cy="35%" r="65%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="40%" stop-color="#F8F0E0"/><stop offset="100%" stop-color="#D4AF72"/></radialGradient></defs><circle cx="40" cy="40" r="32" fill="url(#l1)" stroke="#D4AF72" stroke-width="0.5"/><ellipse cx="30" cy="28" rx="8" ry="4" fill="white" opacity="0.4" transform="rotate(-25 30 28)"/></svg>
+              <div class="badge b-gift">礼品</div>
+            </div>
+            <div class="body">
+              <div class="cat">EARRING</div>
+              <div class="name">美丽信仰海水珍珠耳钉</div>
+              <div class="params">
+                <span class="param gold">合浦南珠</span>
+                <span class="param">6-6.5mm</span>
+                <span class="param">18K金</span>
+              </div>
+              <div class="price-row">
+                <div><span class="price">¥1280</span><span class="orig">¥1680</span></div>
+                <div class="add">+</div>
+              </div>
+            </div>
+          </div>
+          <div class="pcard">
+            <div class="img" style="background:#F5F0EC20">
+              <svg class="pearl-svg" viewBox="0 0 80 80"><defs><radialGradient id="l2" cx="38%" cy="35%" r="65%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="40%" stop-color="#F5F0EC"/><stop offset="100%" stop-color="#B8924A"/></radialGradient></defs><circle cx="40" cy="40" r="32" fill="url(#l2)" stroke="#B8924A" stroke-width="0.5"/><ellipse cx="30" cy="28" rx="8" ry="4" fill="white" opacity="0.4" transform="rotate(-25 30 28)"/></svg>
+            </div>
+            <div class="body">
+              <div class="cat">NECKLACE</div>
+              <div class="name">福缘淡水珍珠项链</div>
+              <div class="params">
+                <span class="param gold">淡水珍珠</span>
+                <span class="param">9-10mm</span>
+                <span class="param">近圆</span>
+              </div>
+              <div class="price-row">
+                <div><span class="price">¥399</span><span class="orig">¥580</span></div>
+                <div class="add">+</div>
+              </div>
+            </div>
+          </div>
+          <div class="pcard">
+            <div class="img" style="background:#F0EEF820">
+              <svg class="pearl-svg" viewBox="0 0 80 80"><defs><radialGradient id="l3" cx="38%" cy="35%" r="65%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="40%" stop-color="#F0EEF8"/><stop offset="100%" stop-color="#8070B8"/></radialGradient></defs><circle cx="40" cy="40" r="32" fill="url(#l3)" stroke="#8070B8" stroke-width="0.5"/><ellipse cx="30" cy="28" rx="8" ry="4" fill="white" opacity="0.4" transform="rotate(-25 30 28)"/></svg>
+              <div class="badge b-new">新品</div>
+            </div>
+            <div class="body">
+              <div class="cat">NECKLACE</div>
+              <div class="name">星晴满天星珍珠项链</div>
+              <div class="params">
+                <span class="param gold">合浦南珠</span>
+                <span class="param">5-6mm</span>
+                <span class="param">18K金</span>
+              </div>
+              <div class="price-row">
+                <div><span class="price">¥2180</span><span class="orig">¥2980</span></div>
+                <div class="add">+</div>
+              </div>
+            </div>
+          </div>
+          <div class="pcard">
+            <div class="img" style="background:#F8F8F020">
+              <svg class="pearl-svg" viewBox="0 0 80 80"><defs><radialGradient id="l4" cx="38%" cy="35%" r="65%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="40%" stop-color="#F8F8F0"/><stop offset="100%" stop-color="#C0C090"/></radialGradient></defs><circle cx="40" cy="40" r="32" fill="url(#l4)" stroke="#C0C090" stroke-width="0.5"/><ellipse cx="30" cy="28" rx="8" ry="4" fill="white" opacity="0.4" transform="rotate(-25 30 28)"/></svg>
+              <div class="badge b-hot">热销</div>
+            </div>
+            <div class="body">
+              <div class="cat">NECKLACE</div>
+              <div class="name">南洋白珠婚嫁项链</div>
+              <div class="params">
+                <span class="param gold">南洋金珠</span>
+                <span class="param">9-11mm</span>
+                <span class="param">极强光</span>
+              </div>
+              <div class="price-row">
+                <div><span class="price">¥8800</span><span class="orig">¥12000</span></div>
+                <div class="add">+</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

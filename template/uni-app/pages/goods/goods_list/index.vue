@@ -49,6 +49,12 @@
 						class="chip" :class="{ on: where.pearl_color === o.v }"
 						@click="togglePearl('pearl_color', o.v)">{{ o.t }}</view>
 				</view>
+				<view class="pearl-filter-group">
+					<text class="label">场景</text>
+					<view v-for="o in sceneOptions" :key="o.v"
+						class="chip scene" :class="{ on: where.scene_tag === o.v }"
+						@click="togglePearl('scene_tag', o.v)">{{ o.t }}</view>
+				</view>
 			</scroll-view>
 			<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scroll="scroll"
 				@scrolltolower="scrolltolower">
@@ -70,7 +76,7 @@
 						<view class='text' :class='is_switch==true?"":"on"'>
 							<view class='name line2'>{{item.store_name}}</view>
 							<pearl-label :pearl="item.pearl" />
-							<view class='money font-color' :class='is_switch==true?"":"on"'>{{$t(`￥`)}}<text
+							<view class='money pearl-price' :class='is_switch==true?"":"on"'>{{$t(`￥`)}}<text
 									class='num'>{{item.price}}</text></view>
 							<view class='vip acea-row row-between-wrapper' :class='is_switch==true?"":"on"'>
 								<view class='vip-money' v-if="item.vip_price && item.vip_price > 0">
@@ -172,6 +178,13 @@
 					{ v: 'purple', t: '紫' },
 					{ v: 'black', t: '黑' },
 					{ v: 'multi', t: '混彩' },
+				],
+				sceneOptions: [
+					{ v: 'gift_mom', t: '送妈妈' },
+					{ v: 'wedding',  t: '婚嫁' },
+					{ v: 'daily',    t: '日常通勤' },
+					{ v: 'date',     t: '约会礼物' },
+					{ v: 'work',     t: '职场' },
 				],
 				price: 0,
 				stock: 0,
@@ -459,7 +472,10 @@
 		width: 345rpx;
 		margin-top: 20rpx;
 		background-color: #fff;
-		border-radius: 20rpx;
+		border-radius: 8rpx;
+		border: 1rpx solid #E0D8CF;
+		overflow: hidden;
+		transition: all 0.2s;
 	}
 
 	.productList .list .item.on {
@@ -490,7 +506,7 @@
 	.productList .list .item .pictrue image {
 		width: 100%;
 		height: 100%;
-		border-radius: 20rpx 20rpx 0 0;
+		border-radius: 0;
 	}
 
 	.productList .list .item .pictrue image.on {
@@ -498,9 +514,10 @@
 	}
 
 	.productList .list .item .text {
-		padding: 20rpx 17rpx 26rpx 17rpx;
-		font-size: 30rpx;
-		color: #222;
+		padding: 22rpx 22rpx 26rpx;
+		font-size: 28rpx;
+		color: #1C1917;
+		font-family: 'STSong', 'Songti SC', 'Noto Serif SC', serif;
 	}
 
 	.productList .list .item .text.on {
@@ -510,8 +527,10 @@
 
 	.productList .list .item .text .money {
 		font-size: 26rpx;
-		font-weight: bold;
-		margin-top: 8rpx;
+		font-weight: 600;
+		color: #B8924A;
+		margin-top: 10rpx;
+		font-family: 'STSong', 'Songti SC', 'Noto Serif SC', serif;
 	}
 
 	.productList .list .item .text .money.on {
@@ -568,34 +587,50 @@
 
 	.pearl-filter-bar {
 		white-space: nowrap;
-		background: #fff;
-		padding: 16rpx 20rpx;
-		border-bottom: 1rpx solid #f5f0e4;
+		background: #FAF7F2;
+		padding: 18rpx 20rpx;
+		border-bottom: 1rpx solid #E0D8CF;
 	}
 
 	.pearl-filter-group {
 		display: inline-flex;
 		align-items: center;
-		margin-right: 24rpx;
+		margin-right: 28rpx;
 
 		.label {
 			font-size: 22rpx;
-			color: #a48a5c;
-			margin-right: 12rpx;
+			color: #7A6E68;
+			letter-spacing: 2rpx;
+			margin-right: 14rpx;
 		}
 
 		.chip {
 			display: inline-block;
-			padding: 8rpx 20rpx;
+			padding: 8rpx 22rpx;
 			margin-right: 10rpx;
 			font-size: 22rpx;
-			color: #555;
-			background: #f8f5ee;
-			border-radius: 24rpx;
+			color: #3D3530;
+			background: #fff;
+			border: 1rpx solid #E0D8CF;
+			border-radius: 4rpx;
+			letter-spacing: 1rpx;
 
 			&.on {
-				background: #c9a96e;
+				background: #B8924A;
 				color: #fff;
+				border-color: #B8924A;
+			}
+
+			&.scene {
+				color: #4A6741;
+				background: #E8F0E6;
+				border-color: #D4E1D2;
+
+				&.on {
+					background: #4A6741;
+					color: #fff;
+					border-color: #4A6741;
+				}
 			}
 		}
 	}

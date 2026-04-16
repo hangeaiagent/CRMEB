@@ -53,6 +53,8 @@ class PearlCategorySeeder extends Seeder
             ]],
         ];
 
+        $pearlTops = array_column($tree, 0);
+
         Db::startTrans();
         try {
             foreach ($tree as $top) {
@@ -63,6 +65,23 @@ class PearlCategorySeeder extends Seeder
                     $this->upsertCate($pid, $cname, $csort, $now);
                 }
             }
+
+            // 隐藏所有非珍珠白名单的顶级分类（以及它们的子分类）。
+            // 不删除记录，只置 is_show=0，避免破坏可能存在的外键数据。
+            $nonPearlTopIds = Db::name('store_category')
+                ->where('pid', 0)
+                ->whereNotIn('cate_name', $pearlTops)
+                ->column('id');
+
+            if ($nonPearlTopIds) {
+                Db::name('store_category')
+                    ->whereIn('id', $nonPearlTopIds)
+                    ->update(['is_show' => 0]);
+                Db::name('store_category')
+                    ->whereIn('pid', $nonPearlTopIds)
+                    ->update(['is_show' => 0]);
+            }
+
             Db::commit();
         } catch (\Throwable $e) {
             Db::rollback();
