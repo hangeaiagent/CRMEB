@@ -89,6 +89,14 @@ class StoreProduct extends BaseModel
         return $this->hasMany(StoreProductAttrValue::class, 'product_id', 'id')->where('type', 0);
     }
 
+    /**
+     * 珍珠扩展属性一对一
+     */
+    public function pearl()
+    {
+        return $this->hasOne(StoreProductPearl::class, 'product_id', 'id');
+    }
+
 
     /**
      * 轮播图获取器

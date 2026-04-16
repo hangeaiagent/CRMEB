@@ -143,12 +143,17 @@
         </div>
       </el-form-item>
     </el-col>
+    <el-col :span="24">
+      <pearl-info :formValidate="formValidate" />
+    </el-col>
   </el-row>
 </template>
 
 <script>
+import PearlInfo from './PearlInfo.vue';
 export default {
   name: 'OtherSetting',
+  components: { PearlInfo },
   props: {
     formValidate: {
       type: Object,

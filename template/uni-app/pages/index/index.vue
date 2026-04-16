@@ -15,6 +15,8 @@
 			<!-- 顶部搜索框 -->
 			<headerSerch v-if="isHeaderSerch" :dataConfig="headerSerchCombData" :belongIndex="belongIndex" @storeTap="storeTap"></headerSerch>
 			<tabNav v-if="showCateNav" :dataConfig="cateNavData" @bindHeight="bindHeighta" @bindSortId="bindSortId" :isFixed="isFixed && !cateNavData.stickyConfig.tabVal"></tabNav>
+			<!-- 珍珠 demo: 场景化购买入口（静态注入，不走 DIY） -->
+			<scene-entry />
 			<view class="index">
 				<!-- 自定义样式 -->
 				<block v-for="(item, index) in styleConfig" :key="index">
@@ -167,6 +169,7 @@ import videos from './components/videos';
 import signIn from './components/signIn';
 import hotspot from './components/hotspot';
 import follow from './components/follow';
+import sceneEntry from './components/sceneEntry.vue';
 import waterfallsFlow from '@/components/WaterfallsFlow/WaterfallsFlow.vue';
 import emptyPage from '@/components/emptyPage.vue';
 // #ifdef MP
@@ -247,6 +250,7 @@ export default {
 		signIn,
 		hotspot,
 		follow,
+		sceneEntry,
 		waterfallsFlow,
 		emptyPage,
 		// #ifdef APP

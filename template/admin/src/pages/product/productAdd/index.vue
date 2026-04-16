@@ -551,6 +551,21 @@ export default {
         min_qty: 1,
         label_list: [],
         protection_list: [],
+        pearl: {
+          pearl_source: '',
+          pearl_size: '',
+          pearl_shape: '',
+          luster: '',
+          color: '',
+          surface_grade: '',
+          metal_type: '',
+          origin: '',
+          cert_no: '',
+          cert_org: '',
+          strand_length_cm: 0,
+          pin_type: '',
+          scene_tags: '',
+        },
       },
       ruleList: [],
       templateList: [],
@@ -727,6 +742,14 @@ export default {
             }
 
             this.formValidate = data;
+            if (!this.formValidate.pearl) {
+              this.formValidate.pearl = {
+                pearl_source: '', pearl_size: '', pearl_shape: '',
+                luster: '', color: '', surface_grade: '', metal_type: '',
+                origin: '', cert_no: '', cert_org: '',
+                strand_length_cm: 0, pin_type: '', scene_tags: '',
+              };
+            }
             this.dataLabel = data.label_id;
             this.formValidate.coupon_ids = ids;
             this.updateIds = ids;

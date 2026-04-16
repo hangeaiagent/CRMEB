@@ -425,6 +425,9 @@ class StoreProductServices extends BaseServices
         } else {
             $productInfo['activity'] = ['默认', '秒杀', '砍价', '拼团'];
         }
+        /** @var StoreProductPearlServices $storeProductPearlServices */
+        $storeProductPearlServices = app()->make(StoreProductPearlServices::class);
+        $productInfo['pearl'] = $storeProductPearlServices->getPearl($id);
         $data['productInfo'] = $productInfo;
         return $data;
     }
@@ -595,6 +598,8 @@ class StoreProductServices extends BaseServices
         $coupon_ids = $data['coupon_ids'];
         $description = $data['description'];
         $type = $data['type'];
+        $pearl = $data['pearl'] ?? null;
+        unset($data['pearl']);
         $data['recommend_list'] = count($data['recommend_list']) ? implode(',', array_column($data['recommend_list'], 'product_id')) : '';
         $data['is_vip'] = in_array(0, $data['is_sub']) ? 1 : 0;
         $data['is_sub'] = in_array(1, $data['is_sub']) ? 1 : 0;
@@ -683,7 +688,9 @@ class StoreProductServices extends BaseServices
         if (isset($data['description_images'])) {
             $descriptionImages = $data['description_images'];
         }
-        $this->transaction(function () use ($id, $is_copy, $data, $descriptionImages, $description, $cate_id, $storeDescriptionServices, $storeProductCateServices, $storeProductAttrServices, $storeProductCouponServices, $storeCategoryServices, $detail, $attr, $coupon_ids, $type, $slider_image) {
+        /** @var StoreProductPearlServices $storeProductPearlServices */
+        $storeProductPearlServices = app()->make(StoreProductPearlServices::class);
+        $this->transaction(function () use ($id, $is_copy, $data, $descriptionImages, $description, $cate_id, $storeDescriptionServices, $storeProductCateServices, $storeProductAttrServices, $storeProductCouponServices, $storeCategoryServices, $storeProductPearlServices, $detail, $attr, $coupon_ids, $type, $slider_image, $pearl) {
             if ($data['spec_type'] == 0) {
                 $attr = [
                     [
@@ -730,6 +737,7 @@ class StoreProductServices extends BaseServices
                     $storeProductCouponServices->delete(['product_id' => $id]);
                 }
                 if (!$attrRes) throw new AdminException(100022);
+                $storeProductPearlServices->savePearl($id, $pearl);
             } else {
                 $data['add_time'] = time();
                 $data['code_path'] = '';
@@ -749,6 +757,7 @@ class StoreProductServices extends BaseServices
                 $attrRes = $storeProductAttrServices->saveProductAttr($skuList, $res->id, 0, $data['is_vip'], $data['virtual_type']);
                 if (!empty($coupon_ids)) $storeProductCouponServices->setCoupon($res->id, $coupon_ids);
                 if (!$attrRes) throw new AdminException(100022);
+                $storeProductPearlServices->savePearl((int)$res->id, $pearl);
 
                 //采集商品下载图片
                 if ($type == -1) {
@@ -1221,6 +1230,8 @@ class StoreProductServices extends BaseServices
         // 使用 id 作为键
         $labelList = array_column($labelList, null, 'id');
 
+        $pearlMap = $this->fetchPearlMap(array_column($list, 'id'));
+
         foreach ($list as &$item) {
             if (!$this->vipIsOpen(!!$item['is_vip'], $vipStatus)) {
                 $item['vip_price'] = 0;
@@ -1234,10 +1245,24 @@ class StoreProductServices extends BaseServices
             $item['label_list'] = $item['label_list'] != '' ? array_map(function ($labelId) use ($labelList) {
                 return $labelList[$labelId] ?? [];
             }, explode(',', $item['label_list'])) : [];
+            $item['pearl'] = $pearlMap[$item['id']] ?? null;
         }
         $list = $this->getActivityList($list);
         $list = $this->getProduceOtherList($list, $uid, !!$where['type']);
         return $list;
+    }
+
+    /**
+     * 批量读取珍珠扩展属性，返回 product_id => 扩展字段 数组。
+     * 商品列表/推荐列表调用此方法避免 N+1 查询。
+     */
+    protected function fetchPearlMap(array $productIds): array
+    {
+        $productIds = array_values(array_unique(array_filter(array_map('intval', $productIds))));
+        if (empty($productIds)) return [];
+        /** @var StoreProductPearlServices $svc */
+        $svc = app()->make(StoreProductPearlServices::class);
+        return $svc->mapByProductIds($productIds);
     }
 
     /**
@@ -1452,6 +1477,9 @@ class StoreProductServices extends BaseServices
             $storeInfo['protection_list'] = [];
         }
         $storeInfo['slider_image'] = set_file_url($storeInfo['slider_image'], $siteUrl);
+        /** @var StoreProductPearlServices $storeProductPearlServices */
+        $storeProductPearlServices = app()->make(StoreProductPearlServices::class);
+        $storeInfo['pearl'] = $storeProductPearlServices->getPearl($id);
 
         if (sys_config('share_qrcode', 0) && request()->isWechat()) {
             /** @var QrcodeServices $qrcodeService */

@@ -187,6 +187,35 @@ class StoreProductDao extends BaseDao
                     $query->whereOr('FIND_IN_SET(:value, label_list)', ['value' => $value]);
                 }
             });
+        })->when(!empty($where['pearl_source']), function ($query) use ($where) {
+            $query->whereIn('id', function ($q) use ($where) {
+                $q->name('store_product_pearl')->whereIn('pearl_source', (array)$where['pearl_source'])->field('product_id')->select();
+            });
+        })->when(!empty($where['pearl_shape']), function ($query) use ($where) {
+            $query->whereIn('id', function ($q) use ($where) {
+                $q->name('store_product_pearl')->whereIn('pearl_shape', (array)$where['pearl_shape'])->field('product_id')->select();
+            });
+        })->when(!empty($where['pearl_color']), function ($query) use ($where) {
+            $query->whereIn('id', function ($q) use ($where) {
+                $q->name('store_product_pearl')->whereIn('color', (array)$where['pearl_color'])->field('product_id')->select();
+            });
+        })->when(!empty($where['pearl_size']), function ($query) use ($where) {
+            $query->whereIn('id', function ($q) use ($where) {
+                $q->name('store_product_pearl')->whereIn('pearl_size', (array)$where['pearl_size'])->field('product_id')->select();
+            });
+        })->when(!empty($where['surface_grade']), function ($query) use ($where) {
+            $query->whereIn('id', function ($q) use ($where) {
+                $q->name('store_product_pearl')->whereIn('surface_grade', (array)$where['surface_grade'])->field('product_id')->select();
+            });
+        })->when(!empty($where['scene_tag']), function ($query) use ($where) {
+            $tags = (array)$where['scene_tag'];
+            $query->whereIn('id', function ($q) use ($tags) {
+                $q->name('store_product_pearl')->where(function ($w) use ($tags) {
+                    foreach ($tags as $t) {
+                        $w->whereOr('FIND_IN_SET(:t, scene_tags)', ['t' => $t]);
+                    }
+                })->field('product_id')->select();
+            });
         })->order('sort desc')->field($field)->select()->toArray();
     }
 

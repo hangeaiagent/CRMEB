@@ -6,7 +6,7 @@ services:
 #    image: daocloud.io/library/mysql:5.7.5-m15 #M1芯片可以采用这个镜像
     image: mysql:5.7 #一般电脑可以用这个镜像
     ports:
-      - 3336:3306
+      - 127.0.0.1:3336:3306
     # 环境变量
     environment:
       TZ: Asia/Shanghai
@@ -39,7 +39,7 @@ services:
     # image: daocloud.io/library/redis:6.0.5-alpine
     # image: redis:5.0
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
     command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       # - ./redis/data:/data #挂载数据目录到本地
@@ -53,21 +53,23 @@ services:
     # image: phpfpm-image #指定镜像名
     image: crmeb_php #指定镜像名
     build:
-      context: ./php #dockerfile文件路径
-      dockerfile: Dockerfile #制定dockerfile文件名称
+      context: .. #repo root so Dockerfile can COPY crmeb/
+      dockerfile: docker-compose/php/Dockerfile
     restart: always
     environment:
       TZ: Asia/Shanghai
     ports:
-      - 9000:9000
-      - 20002:20002
-      - 20003:20003
+      - 127.0.0.1:9000:9000
+      - 127.0.0.1:20002:20002
+      - 127.0.0.1:20003:20003
     tmpfs: /var/temp #上传临时文件夹
     working_dir: /var/www
     volumes:
-      - ../crmeb:/var/www #程序运行目录
-      - ../crmeb/runtime:/var/www/temp #程序缓存目录
-      - ./php/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+      # code is baked into the image (see Dockerfile). Only persist data-changing paths:
+      - ../crmeb/.env:/var/www/.env
+      - ../crmeb/public/uploads:/var/www/public/uploads
+      - crmeb_runtime:/var/www/runtime
+      - ./php/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
     networks:
       app_net:
         ipv4_address: 192.168.10.90
@@ -79,7 +81,7 @@ services:
     # image: daocloud.io/library/nginx:1.19.1-alpine
     restart: always
     ports:
-      - 8011:80
+      - 127.0.0.1:8011:80
       # - 443:443
     # 依赖关系 先跑php
     depends_on:
@@ -102,4 +104,6 @@ networks: #网络配置
       driver: default
       config:
         - subnet: 192.168.10.0/24 #IP区间
+volumes:
+  crmeb_runtime: #php runtime (cache/logs/session) in a named volume for speed
 

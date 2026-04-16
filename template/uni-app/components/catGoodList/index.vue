@@ -9,6 +9,7 @@
 				<image :src="item.image" mode="" v-else></image>
 			</view>
 			<view class="text line2">{{ item.store_name }}</view>
+			<pearl-label :pearl="item.pearl" />
 			<view class="bottom acea-row row-between-wrapper">
 				<view class="sales acea-row row-middle">
 					<view class="money font-color">
@@ -48,8 +49,10 @@
 </template>
 
 <script>
+import PearlLabel from '@/components/pearlLabel/index.vue';
 export default {
 	name: 'catGoodList',
+	components: { PearlLabel },
 	props: {
 		dataConfig: {
 			type: Object,

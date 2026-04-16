@@ -24,3 +24,11 @@
 /docker-compose/MacArm/mysql/log/
 /docker-compose/linux/mysql/data/
 /docker-compose/linux/mysql/log/
+
+# secrets / local env (use crmeb/.env.example as template)
+/crmeb/.env
+# deploy scripts (contain server IP / username)
+/.deploy/
+# Python bytecode
+__pycache__/
+*.pyc

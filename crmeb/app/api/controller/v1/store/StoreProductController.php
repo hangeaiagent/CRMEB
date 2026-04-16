@@ -62,7 +62,21 @@ class StoreProductController
             [['coupon_category_id', 'd'], 0],
             ['cate_id', ''],
             ['store_label_id', ''],
+            ['scene_tag', ''],
+            ['pearl_source', ''],
+            ['pearl_shape', ''],
+            ['pearl_color', ''],
+            ['pearl_size', ''],
+            ['surface_grade', ''],
         ]);
+        foreach (['scene_tag', 'pearl_source', 'pearl_shape', 'pearl_color', 'pearl_size', 'surface_grade'] as $k) {
+            if ($where[$k] === '' || $where[$k] === null) {
+                unset($where[$k]);
+            } elseif (is_string($where[$k])) {
+                $where[$k] = array_values(array_filter(explode(',', $where[$k])));
+                if (!$where[$k]) unset($where[$k]);
+            }
+        }
         if ($where['selectId'] && (!$where['sid'] || !$where['cid'])) {
             if ($services->value(['id' => $where['selectId']], 'pid')) {
                 $where['sid'] = $where['selectId'];

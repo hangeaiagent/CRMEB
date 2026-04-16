@@ -29,6 +29,27 @@
 				<!-- down -->
 				<view class='item' :class='nows ? "font-color":""' @click='set_where(4)'>{{$t(`新品`)}}</view>
 			</view>
+			<!-- 珍珠 demo: 品质筛选条 -->
+			<scroll-view scroll-x="true" class="pearl-filter-bar" show-scrollbar="false">
+				<view class="pearl-filter-group">
+					<text class="label">珠源</text>
+					<view v-for="o in sourceOptions" :key="o.v"
+						class="chip" :class="{ on: where.pearl_source === o.v }"
+						@click="togglePearl('pearl_source', o.v)">{{ o.t }}</view>
+				</view>
+				<view class="pearl-filter-group">
+					<text class="label">珠形</text>
+					<view v-for="o in shapeOptions" :key="o.v"
+						class="chip" :class="{ on: where.pearl_shape === o.v }"
+						@click="togglePearl('pearl_shape', o.v)">{{ o.t }}</view>
+				</view>
+				<view class="pearl-filter-group">
+					<text class="label">颜色</text>
+					<view v-for="o in colorOptions" :key="o.v"
+						class="chip" :class="{ on: where.pearl_color === o.v }"
+						@click="togglePearl('pearl_color', o.v)">{{ o.t }}</view>
+				</view>
+			</scroll-view>
 			<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scroll="scroll"
 				@scrolltolower="scrolltolower">
 				<view class='list acea-row row-between-wrapper' :class='is_switch==true?"":"on"'>
@@ -48,6 +69,7 @@
 						</view>
 						<view class='text' :class='is_switch==true?"":"on"'>
 							<view class='name line2'>{{item.store_name}}</view>
+							<pearl-label :pearl="item.pearl" />
 							<view class='money font-color' :class='is_switch==true?"":"on"'>{{$t(`￥`)}}<text
 									class='num'>{{item.price}}</text></view>
 							<view class='vip acea-row row-between-wrapper' :class='is_switch==true?"":"on"'>
@@ -91,6 +113,7 @@
 		getProductHot
 	} from '@/api/store.js';
 	import recommend from '@/components/recommend';
+	import PearlLabel from '@/components/pearlLabel/index.vue';
 	import {
 		mapGetters
 	} from "vuex";
@@ -105,7 +128,8 @@
 		computed: mapGetters(['uid']),
 		components: {
 			recommend,
-			home
+			home,
+			PearlLabel
 		},
 		mixins: [colors],
 		data() {
@@ -122,7 +146,33 @@
 					page: 1,
 					limit: 20,
 					cid: 0,
+					scene_tag: '',
+					pearl_source: '',
+					pearl_shape: '',
+					pearl_color: '',
 				},
+				sourceOptions: [
+					{ v: 'akoya', t: 'Akoya' },
+					{ v: 'tahitian', t: '大溪地' },
+					{ v: 'south_sea', t: '南洋' },
+					{ v: 'freshwater_edison', t: '爱迪生' },
+					{ v: 'freshwater_no_nucleus', t: '淡水' },
+				],
+				shapeOptions: [
+					{ v: 'round', t: '正圆' },
+					{ v: 'near_round', t: '近圆' },
+					{ v: 'baroque', t: '巴洛克' },
+					{ v: 'oval', t: '椭圆' },
+					{ v: 'drop', t: '水滴' },
+				],
+				colorOptions: [
+					{ v: 'white', t: '白' },
+					{ v: 'pink', t: '粉' },
+					{ v: 'gold', t: '金' },
+					{ v: 'purple', t: '紫' },
+					{ v: 'black', t: '黑' },
+					{ v: 'multi', t: '混彩' },
+				],
 				price: 0,
 				stock: 0,
 				nows: false,
@@ -145,9 +195,10 @@
 			this.where.cid = options.cid || 0;
 			this.where.coupon_category_id = options.coupon_category_id || '';
 			this.$set(this.where, 'sid', options.sid || 0);
-			this.title = options.title || '';
+			this.title = options.title ? decodeURIComponent(options.title) : '';
 			this.$set(this.where, 'keyword', options.searchValue || '');
 			this.$set(this.where, 'productId', options.productId || '');
+			this.$set(this.where, 'scene_tag', options.scene_tag || '');
 			this.get_product_list();
 		},
 		methods: {
@@ -173,6 +224,13 @@
 			Changswitch: function() {
 				let that = this;
 				that.is_switch = !that.is_switch
+			},
+			togglePearl(key, value) {
+				this.$set(this.where, key, this.where[key] === value ? '' : value);
+				this.$set(this.where, 'page', 1);
+				this.productList = [];
+				this.loadend = false;
+				this.get_product_list(true);
 			},
 			searchSubmit: function(e) {
 				let that = this;
@@ -504,6 +562,40 @@
 			image {
 				width: 414rpx;
 				height: 304rpx;
+			}
+		}
+	}
+
+	.pearl-filter-bar {
+		white-space: nowrap;
+		background: #fff;
+		padding: 16rpx 20rpx;
+		border-bottom: 1rpx solid #f5f0e4;
+	}
+
+	.pearl-filter-group {
+		display: inline-flex;
+		align-items: center;
+		margin-right: 24rpx;
+
+		.label {
+			font-size: 22rpx;
+			color: #a48a5c;
+			margin-right: 12rpx;
+		}
+
+		.chip {
+			display: inline-block;
+			padding: 8rpx 20rpx;
+			margin-right: 10rpx;
+			font-size: 22rpx;
+			color: #555;
+			background: #f8f5ee;
+			border-radius: 24rpx;
+
+			&.on {
+				background: #c9a96e;
+				color: #fff;
 			}
 		}
 	}

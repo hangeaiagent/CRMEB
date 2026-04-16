@@ -61,6 +61,7 @@
 								<view class="iconfont icon-fenxiang" @click="listenerActionSheet"></view>
 							</view>
 							<view class="introduce" v-text="storeInfo.store_name || ''"></view>
+							<pearl-label :pearl="storeInfo.pearl" mode="full" />
 							<view class="limit_good" v-if="storeInfo.limit_type > 0">
 								{{ storeInfo.limit_type == 1 ? $t(`单次限购`) : $t(`永久限购`) }}{{ storeInfo.limit_num }}{{ $t(storeInfo.unit_name) }}
 								<text class="line" v-if="storeInfo.limit_type > 0 && storeInfo.min_qty > 1">|</text>
@@ -514,6 +515,7 @@ import parser from '@/components/jyf-parser/jyf-parser';
 import homeList from '@/components/homeList';
 import specs from './components/specs/index.vue';
 import serviceModal from './components/serviceModal/index.vue';
+import PearlLabel from '@/components/pearlLabel/index.vue';
 export default {
 	components: {
 		productConSwiper,
@@ -531,7 +533,8 @@ export default {
 		parser,
 		homeList,
 		specs,
-		serviceModal
+		serviceModal,
+		PearlLabel
 	},
 	directives: {
 		trigger: {

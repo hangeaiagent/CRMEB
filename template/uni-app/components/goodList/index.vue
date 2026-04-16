@@ -16,6 +16,7 @@
 					<view class='underline'>
 						<view class='text'>
 							<view class='line1'>{{item.store_name}}</view>
+							<pearl-label :pearl="item.pearl" />
 							<view class='money font-color'>{{$t(`￥`)}}<text class='num'>{{item.price}}</text></view>
 							<view class='vip-money acea-row row-middle'
 								v-if="item.is_vip && item.vip_price && item.vip_price > 0">
@@ -42,7 +43,9 @@
 		goShopDetail,
 		goPage
 	} from '@/libs/order.js'
+	import PearlLabel from '@/components/pearlLabel/index.vue'
 	export default {
+		components: { PearlLabel },
 		computed: mapGetters(['uid']),
 		props: {
 			status: {
